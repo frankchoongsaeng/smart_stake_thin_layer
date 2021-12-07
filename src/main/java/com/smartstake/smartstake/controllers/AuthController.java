@@ -18,13 +18,16 @@ public class AuthController {
     @Autowired
     RestTemplate restTemplate;
 
+    @Autowired
+    AuthService authService;
+
     @PostMapping("/register")
     public ResponseEntity<ClientDTO> register(@RequestBody RegisterDTO registerRequest) {
-        return AuthService.register(registerRequest);
+        return authService.register(registerRequest);
     }
 
     @PostMapping("/login")
     public ResponseEntity<ClientDTO> login(@RequestBody LoginDTO loginDTO) {
-        return AuthService.login(loginDTO);
+        return authService.login(loginDTO);
     }
 }
