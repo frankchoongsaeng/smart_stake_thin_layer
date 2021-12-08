@@ -1,4 +1,4 @@
-package com.smartstake.smartstake.dto;
+package com.smartstake.api.dto;
 
 public class LoginDTO {
     private String email;

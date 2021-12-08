@@ -1,8 +1,8 @@
-package com.smartstake.smartstake.services;
+package com.smartstake.api.services;
 
-import com.smartstake.smartstake.dto.ClientDTO;
-import com.smartstake.smartstake.dto.LoginDTO;
-import com.smartstake.smartstake.dto.RegisterDTO;
+import com.smartstake.api.dto.ClientDTO;
+import com.smartstake.api.dto.LoginDTO;
+import com.smartstake.api.dto.RegisterDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

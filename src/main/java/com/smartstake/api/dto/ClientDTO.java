@@ -1,10 +1,10 @@
-package com.smartstake.smartstake.dto;
+package com.smartstake.api.dto;
 
-public class RegisterDTO {
+public class ClientDTO {
     private String firstname;
     private String lastname;
     private String email;
-    private String password;
+    private double balance;
 
     public String getFirstname() {
         return firstname;
@@ -30,11 +30,11 @@ public class RegisterDTO {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public double getBalance() {
+        return balance;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 }

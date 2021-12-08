@@ -1,4 +1,4 @@
-package com.smartstake.smartstake.entities;
+package com.smartstake.api.model.entities;
 
 import javax.persistence.*;
 

@@ -1,8 +1,8 @@
-package com.smartstake.smartstake.stubs;
+package com.smartstake.api.stubs;
 
-import com.smartstake.smartstake.dto.ClientDTO;
-import com.smartstake.smartstake.dto.LoginDTO;
-import com.smartstake.smartstake.dto.RegisterDTO;
+import com.smartstake.api.dto.ClientDTO;
+import com.smartstake.api.dto.LoginDTO;
+import com.smartstake.api.dto.RegisterDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

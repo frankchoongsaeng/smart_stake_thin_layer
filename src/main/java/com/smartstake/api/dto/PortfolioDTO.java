@@ -1,4 +1,5 @@
-package com.smartstake.smartstake.dto;
+package com.smartstake.api.dto;
+
 
 public class PortfolioDTO {
 
