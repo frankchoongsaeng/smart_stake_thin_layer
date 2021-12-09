@@ -12,22 +12,32 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class AuthService {
     @Autowired
-    static RestTemplate restTemplate;
+    RestTemplate restTemplate;
 
-    public static ResponseEntity<ClientDTO> login(LoginDTO loginDTO) {
+    @Autowired
+    ClientService clientService;
+
+    private final String AUTH_ENDPOINT = "http://localhost:8080/stubs/auth";
+
+    public ResponseEntity<ClientDTO> login(LoginDTO loginDTO) {
         if (loginDTO.getEmail() == null || loginDTO.getPassword() == null)
             return new ResponseEntity<ClientDTO>(HttpStatus.BAD_REQUEST);
 
-        return restTemplate.postForEntity("http://localhost:8080/auth-service-stub/login", loginDTO, ClientDTO.class);
+        return restTemplate.postForEntity(AUTH_ENDPOINT + "/login", loginDTO, ClientDTO.class);
     }
 
-    public static ResponseEntity<ClientDTO> register(RegisterDTO registerRequest) {
+    public ResponseEntity<ClientDTO> register(RegisterDTO registerRequest) {
         if (registerRequest.getEmail() == null ||
                 registerRequest.getFirstname() == null ||
                 registerRequest.getLastname() == null ||
                 registerRequest.getPassword() == null)
             return new ResponseEntity<ClientDTO>(HttpStatus.BAD_REQUEST);
 
-        return restTemplate.postForEntity("http://localhost:8080/auth-service-stub/register", registerRequest, ClientDTO.class);
+        ResponseEntity<ClientDTO> newClient = restTemplate.postForEntity(AUTH_ENDPOINT + "/register", registerRequest, ClientDTO.class);
+
+        if(newClient.getStatusCodeValue() == 200 || newClient.getStatusCodeValue() == 201)
+            clientService.saveClient(newClient.getBody());
+
+        return newClient;
     }
 }

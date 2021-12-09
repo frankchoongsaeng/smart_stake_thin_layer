@@ -4,7 +4,7 @@ public class ClientDTO {
     private String firstname;
     private String lastname;
     private String email;
-    private double balance;
+    private Long id;
 
     public String getFirstname() {
         return firstname;
@@ -30,11 +30,11 @@ public class ClientDTO {
         this.email = email;
     }
 
-    public double getBalance() {
-        return balance;
+    public Long getId() {
+        return id;
     }
 
-    public void setBalance(double balance) {
-        this.balance = balance;
+    public void setId(Long id) {
+        this.id = id;
     }
 }

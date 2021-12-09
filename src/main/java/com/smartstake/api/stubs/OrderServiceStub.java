@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/stubs/auth")
-public class AuthServiceStub {
-    @PostMapping("/register")
+@RequestMapping("/stubs/order")
+public class OrderServiceStub {
+    @PostMapping("/create")
     public ResponseEntity<ClientDTO> registerStub(@RequestBody RegisterDTO registerDTO) {
         ClientDTO clientDTO = new ClientDTO();
         clientDTO.setEmail(registerDTO.getEmail());
@@ -23,7 +23,7 @@ public class AuthServiceStub {
         return new ResponseEntity<ClientDTO>(clientDTO, HttpStatus.CREATED);
     }
 
-    @PostMapping("/login")
+    @PostMapping("/update")
     public ResponseEntity<ClientDTO> loginStub(@RequestBody LoginDTO loginDTO) {
         ClientDTO clientDTO = new ClientDTO();
         clientDTO.setEmail(loginDTO.getEmail());
