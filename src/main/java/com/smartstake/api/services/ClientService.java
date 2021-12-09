@@ -9,6 +9,8 @@ import com.smartstake.api.model.entities.PortfolioEntity;
 import com.smartstake.api.model.repositories.ClientRepository;
 import com.smartstake.api.model.repositories.PortfolioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -31,7 +33,7 @@ public class ClientService {
         clientRepository.save(clientEntity);
     }
 
-    public void createPortfolio(PortfolioDTO portfolio) {
+    public ResponseEntity<PortfolioEntity> createPortfolio(PortfolioDTO portfolio) {
         Optional<ClientEntity> clientEntity = clientRepository.findById(portfolio.getClientId());
 
         if(clientEntity.isEmpty()) throw new ClientNotFoundException(String.format("Could not find client with id: %s", portfolio.getClientId()));
@@ -41,6 +43,7 @@ public class ClientService {
         portfolioEntity.setName(portfolio.getName());
         portfolioEntity.setClient(clientEntity.get());
         portfolioRepository.save(portfolioEntity);
+        return new ResponseEntity<>(portfolioEntity, HttpStatus.OK);
     }
 
     public void updatePortfolio(PortfolioDTO portfolioDTO) {

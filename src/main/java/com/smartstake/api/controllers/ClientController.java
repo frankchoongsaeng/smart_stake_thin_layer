@@ -1,8 +1,10 @@
 package com.smartstake.api.controllers;
 
 import com.smartstake.api.dto.PortfolioDTO;
+import com.smartstake.api.model.entities.PortfolioEntity;
 import com.smartstake.api.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,8 +15,8 @@ public class ClientController {
     ClientService clientService;
 
     @PostMapping("/portfolio/create")
-    public void createPortfolio(@RequestBody PortfolioDTO portfolio) {
-           clientService.createPortfolio(portfolio);
+    public ResponseEntity<PortfolioEntity> createPortfolio(@RequestBody PortfolioDTO portfolio) {
+           return clientService.createPortfolio(portfolio);
     }
 
     @PutMapping("/portfolio/update")

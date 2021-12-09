@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import static java.util.Objects.isNull;
+
 @Service
 public class AuthService {
     @Autowired
@@ -27,10 +29,10 @@ public class AuthService {
     }
 
     public ResponseEntity<ClientDTO> register(RegisterDTO registerRequest) {
-        if (registerRequest.getEmail() == null ||
-                registerRequest.getFirstname() == null ||
-                registerRequest.getLastname() == null ||
-                registerRequest.getPassword() == null)
+        if (isNull(registerRequest.getEmail()) ||
+                isNull(registerRequest.getFirstName()) ||
+                isNull(registerRequest.getLastName()) ||
+                isNull(registerRequest.getPassword()))
             return new ResponseEntity<ClientDTO>(HttpStatus.BAD_REQUEST);
 
         ResponseEntity<ClientDTO> newClient = restTemplate.postForEntity(AUTH_ENDPOINT + "/register", registerRequest, ClientDTO.class);

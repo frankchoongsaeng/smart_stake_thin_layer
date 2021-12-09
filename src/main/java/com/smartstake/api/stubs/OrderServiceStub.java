@@ -17,8 +17,8 @@ public class OrderServiceStub {
     public ResponseEntity<ClientDTO> registerStub(@RequestBody RegisterDTO registerDTO) {
         ClientDTO clientDTO = new ClientDTO();
         clientDTO.setEmail(registerDTO.getEmail());
-        clientDTO.setFirstname(registerDTO.getFirstname());
-        clientDTO.setLastname(registerDTO.getLastname());
+        clientDTO.setFirstName(registerDTO.getFirstName());
+        clientDTO.setLastName(registerDTO.getLastName());
         clientDTO.setId(100L);
         return new ResponseEntity<ClientDTO>(clientDTO, HttpStatus.CREATED);
     }

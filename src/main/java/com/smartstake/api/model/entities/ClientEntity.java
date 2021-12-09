@@ -1,7 +1,9 @@
 package com.smartstake.api.model.entities;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "client")
@@ -11,6 +13,10 @@ public class ClientEntity {
     private Long id;
 
     private String email;
+
+
+    @OneToMany(mappedBy = "client",cascade = CascadeType.ALL)
+    Set<PortfolioEntity> portfolio = new HashSet<>();
 
 
     public Long getId() {
@@ -36,13 +42,4 @@ public class ClientEntity {
                 ", email='" + email + '\'' +
                 '}';
     }
-
-    //
-//    public List<PortfolioEntity> getPortfolio() {
-//        return portfolio;
-//    }
-//
-//    public void setPortfolio(List<PortfolioEntity> portfolio) {
-//        this.portfolio = portfolio;
-//    }
 }
