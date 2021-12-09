@@ -14,9 +14,9 @@ public class PortfolioEntity {
 
     public PortfolioEntity() {}
 
-    @ManyToOne
-    @JoinColumn(name = "client", nullable = false)
-    private ClientEntity clientEntity;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "client_id", nullable = false)
+    private ClientEntity client;
 
     public Long getId() {
         return id;
@@ -42,11 +42,21 @@ public class PortfolioEntity {
         this.description = description;
     }
 
-    public ClientEntity getClientEntity() {
-        return clientEntity;
+    public ClientEntity getClient() {
+        return client;
     }
 
-    public void setClientEntity(ClientEntity clientEntity) {
-        this.clientEntity = clientEntity;
+    public void setClient(ClientEntity clientEntity) {
+        this.client = clientEntity;
+    }
+
+    @Override
+    public String toString() {
+        return "PortfolioEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", client=" + client +
+                '}';
     }
 }
