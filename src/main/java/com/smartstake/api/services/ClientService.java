@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Set;
 
 import static java.util.Objects.isNull;
 
@@ -56,5 +57,13 @@ public class ClientService {
         if(!isNull(portfolioDTO.getName())) portfolioEntity.setName(portfolioDTO.getName());
 
         portfolioRepository.save(portfolioEntity);
+    }
+
+    public Set<PortfolioEntity> getAllClientPortfolios(long clientId) {
+        return portfolioRepository.findAllByClientId(clientId);
+    }
+
+    public Optional<PortfolioEntity> getSinglePortfolio(long portfolioId) {
+        return portfolioRepository.findById(portfolioId);
     }
 }
