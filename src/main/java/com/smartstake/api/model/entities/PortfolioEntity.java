@@ -1,6 +1,10 @@
 package com.smartstake.api.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "portfolio")
@@ -11,12 +15,17 @@ public class PortfolioEntity {
     private Long id;
     private String name;
     private String description;
+    private double balance;
 
     public PortfolioEntity() {}
 
+    @JsonIgnore
     @ManyToOne(optional = false)
     @JoinColumn(name = "client_id", nullable = false)
     private ClientEntity client;
+
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
+    private Set<PositionEntity> positions = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -27,8 +36,7 @@ public class PortfolioEntity {
     }
 
     public String getName() {
-        return name;
-    }
+        return name;    }
 
     public void setName(String name) {
         this.name = name;
@@ -48,6 +56,31 @@ public class PortfolioEntity {
 
     public void setClient(ClientEntity clientEntity) {
         this.client = clientEntity;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public Set<PositionEntity> getPositions() {
+        return positions;
+    }
+
+    public void setPositions(Set<PositionEntity> positions) {
+        this.positions = positions;
+    }
+
+
+    public void deposit(double amount) {
+        this.balance += amount;
+    }
+
+    public void withdraw(double amount) {
+        this.balance -= amount;
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.smartstake.api.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
@@ -11,9 +13,7 @@ public class ClientEntity {
 
     @Id
     private Long id;
-
     private String email;
-
 
     @OneToMany(mappedBy = "client",cascade = CascadeType.ALL)
     Set<PortfolioEntity> portfolio = new HashSet<>();

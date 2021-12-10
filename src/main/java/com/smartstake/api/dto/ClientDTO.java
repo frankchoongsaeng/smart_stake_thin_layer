@@ -1,10 +1,15 @@
 package com.smartstake.api.dto;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class ClientDTO {
     private String firstName;
     private String lastName;
+    private String username;
     private String email;
     private Long id;
+    private Set<PortfolioDTO> portfolios = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -36,5 +41,21 @@ public class ClientDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Set<PortfolioDTO> getPortfolios() {
+        return portfolios;
+    }
+
+    public void setPortfolios(Set<PortfolioDTO> portfolioDTOS) {
+        this.portfolios = portfolioDTOS;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
