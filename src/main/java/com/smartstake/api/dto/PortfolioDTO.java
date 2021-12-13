@@ -1,5 +1,8 @@
 package com.smartstake.api.dto;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class PortfolioDTO {
 
@@ -8,6 +11,7 @@ public class PortfolioDTO {
     private String description;
     private double balance;
     private long clientId;
+    private Set<PositionDTO> positions = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -47,5 +51,13 @@ public class PortfolioDTO {
 
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    public Set<PositionDTO> getPositions() {
+        return positions;
+    }
+
+    public void setPositions(Set<PositionDTO> positions) {
+        this.positions = positions;
     }
 }
