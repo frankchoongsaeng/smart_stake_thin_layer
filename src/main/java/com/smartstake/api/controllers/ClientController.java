@@ -1,10 +1,8 @@
 package com.smartstake.api.controllers;
 
-import com.smartstake.api.dto.ClientDTO;
 import com.smartstake.api.dto.PortfolioDTO;
 import com.smartstake.api.dto.PositionDTO;
 import com.smartstake.api.exceptions.PortfolioNotFoundException;
-import com.smartstake.api.model.entities.ClientEntity;
 import com.smartstake.api.model.entities.PortfolioEntity;
 import com.smartstake.api.model.entities.PositionEntity;
 import com.smartstake.api.services.ClientService;

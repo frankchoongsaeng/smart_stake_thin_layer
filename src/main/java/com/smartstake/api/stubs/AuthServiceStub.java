@@ -23,7 +23,7 @@ public class AuthServiceStub {
         clientDTO.setFirstName(registerDTO.getFirstName());
         clientDTO.setLastName(registerDTO.getLastName());
         Random randomizer = new Random();
-        clientDTO.setId(randomizer.nextLong(100l, 500l));
+        clientDTO.setId(randomizer.nextInt(500));
 
         AuthResponseDTO authResponse = new AuthResponseDTO();
         authResponse.setAuth_token("stubbed token");
@@ -42,7 +42,7 @@ public class AuthServiceStub {
         RegisterResponseUserDTO clientDTO = new RegisterResponseUserDTO();
         clientDTO.setUsername(loginDTO.getUsername());
         Random randomizer = new Random();
-        clientDTO.setId(randomizer.nextLong(100l, 500l));
+        clientDTO.setId(randomizer.nextInt( 500));
 
         AuthResponseDTO authResponse = new AuthResponseDTO();
         authResponse.setAuth_token("stubbed token");
