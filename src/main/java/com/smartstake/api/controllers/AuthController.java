@@ -20,9 +20,7 @@ public class AuthController {
         /*
         * register and log in the user in one request
         * */
-        ResponseEntity<AuthServiceLoginResponseDTO> registerResponse = authService.register(registerRequest);
-
-        return new ResponseEntity<>(registerResponse.getBody(), HttpStatus.OK);
+        return authService.register(registerRequest);
     }
 
 

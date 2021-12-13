@@ -29,20 +29,15 @@ public class AuthService {
     private final String AUTH_ENDPOINT = "https://smartstakeauthservice.herokuapp.com";
 
     public ResponseEntity<AuthServiceLoginResponseDTO> login(LoginDTO loginDTO) {
-
-        System.out.println(loginDTO);
         if (isNull(loginDTO.getUsername()) || isNull(loginDTO.getPassword())){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         MultiValueMap<String, Object> form = new LinkedMultiValueMap<>();
         form.add("username", loginDTO.getUsername());
         form.add("password", loginDTO.getPassword());
         HttpEntity<MultiValueMap> entity = new HttpEntity(form, headers);
-        System.out.println("login request about to be sent");
         return restTemplate.exchange(AUTH_ENDPOINT + "/login", HttpMethod.POST, entity, AuthServiceLoginResponseDTO.class);
     }
 
@@ -53,7 +48,6 @@ public class AuthService {
                 isNull(registerRequest.getPassword()))
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-//        ResponseEntity<String> registerResponse = restTemplate.postForEntity(AUTH_ENDPOINT + "/registration", registerRequest, String.class);
         ResponseEntity<String> registerResponse;
         try {
             registerResponse = restTemplate.postForEntity(AUTH_ENDPOINT + "/registration", registerRequest, String.class);
@@ -74,7 +68,6 @@ public class AuthService {
 
         // return the log in response if the login failed
         if(!authServiceLoginResponse.getStatusCode().is2xxSuccessful()) return authServiceLoginResponse;
-
 
         ClientDTO clientDTO = new ClientDTO();
         clientDTO.setId(authServiceLoginResponse.getBody().getClientId());
