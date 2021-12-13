@@ -13,15 +13,19 @@ public class PositionEntity {
     private long id;
 
     private String product;
-    private int quantity;
+    private long quantity;
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "portfolio_id")
+    @JoinColumn(name = "portfolio_id", nullable = false)
     private PortfolioEntity portfolio;
 
     public PortfolioEntity getPortfolio() {
         return portfolio;
+    }
+
+    public void setPortfolio(PortfolioEntity portfolioEntity) {
+        this.portfolio = portfolioEntity;
     }
 
     public long getId() {
@@ -40,11 +44,11 @@ public class PositionEntity {
         this.product = product;
     }
 
-    public int getQuantity() {
+    public long getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(long quantity) {
         this.quantity = quantity;
     }
 }

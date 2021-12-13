@@ -1,16 +1,16 @@
 package com.smartstake.api.dto;
 
 public class PositionDTO {
-    private long id;
+    private Long id;
     private String product;
-    private long quantity;
-    private long portfolioId;
+    private Long quantity;
+    private Long portfolioId;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -22,19 +22,19 @@ public class PositionDTO {
         this.product = product;
     }
 
-    public long getQuantity() {
+    public Long getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(long quantity) {
+    public void setQuantity(Long quantity) {
         this.quantity = quantity;
     }
 
-    public long getPortfolioId() {
+    public Long getPortfolioId() {
         return portfolioId;
     }
 
-    public void setPortfolioId(long portfolioId) {
+    public void setPortfolioId(Long portfolioId) {
         this.portfolioId = portfolioId;
     }
 }

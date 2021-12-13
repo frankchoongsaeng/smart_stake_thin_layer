@@ -2,12 +2,15 @@ package com.smartstake.api.services;
 
 import com.smartstake.api.dto.ClientDTO;
 import com.smartstake.api.dto.PortfolioDTO;
+import com.smartstake.api.dto.PositionDTO;
 import com.smartstake.api.exceptions.ClientNotFoundException;
 import com.smartstake.api.exceptions.PortfolioNotFoundException;
 import com.smartstake.api.model.entities.ClientEntity;
 import com.smartstake.api.model.entities.PortfolioEntity;
+import com.smartstake.api.model.entities.PositionEntity;
 import com.smartstake.api.model.repositories.ClientRepository;
 import com.smartstake.api.model.repositories.PortfolioRepository;
+import com.smartstake.api.model.repositories.PositionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +30,9 @@ public class ClientService {
     @Autowired
     ClientRepository clientRepository;
 
+    @Autowired
+    PositionRepository positionRepository;
+
     public void saveClient(ClientDTO body) {
         ClientEntity clientEntity = new ClientEntity();
         clientEntity.setEmail(body.getEmail());
@@ -43,6 +49,7 @@ public class ClientService {
         portfolioEntity.setDescription(portfolio.getDescription());
         portfolioEntity.setName(portfolio.getName());
         portfolioEntity.setClient(clientEntity.get());
+        portfolioEntity.setBalance(portfolio.getBalance());
         portfolioRepository.save(portfolioEntity);
         return new ResponseEntity<>(portfolioEntity, HttpStatus.OK);
     }
@@ -65,5 +72,41 @@ public class ClientService {
 
     public Optional<PortfolioEntity> getSinglePortfolio(long portfolioId) {
         return portfolioRepository.findById(portfolioId);
+    }
+
+    public ResponseEntity<PositionEntity> updatePosition(PositionDTO positionDTO) {
+        Optional<PortfolioEntity> portfolioEntity = portfolioRepository.findById(positionDTO.getPortfolioId());
+
+        if(portfolioEntity.isEmpty()) throw new PortfolioNotFoundException(String.format("Could not find portfolio with id: %s", positionDTO.getPortfolioId()));
+
+        // fetch the position from db. update if exists, else create
+        if(isNull(positionDTO.getId())) {
+            Optional<PositionEntity> optionalPositionEntity = positionRepository.findById(positionDTO.getId());
+
+            if(optionalPositionEntity.isEmpty()) {
+                PositionEntity positionEntity = new PositionEntity();
+                positionEntity.setProduct(positionDTO.getProduct());
+                positionEntity.setQuantity(positionDTO.getQuantity());
+                positionEntity.setPortfolio(portfolioEntity.get());
+                positionRepository.save(positionEntity);
+                return new ResponseEntity<>(positionEntity, HttpStatus.OK);
+            }
+
+            PositionEntity positionEntity = new PositionEntity();
+            positionEntity.setProduct(positionDTO.getProduct());
+            positionEntity.setQuantity(positionDTO.getQuantity());
+            positionEntity.setPortfolio(portfolioEntity.get());
+            positionRepository.save(positionEntity);
+            return new ResponseEntity<>(positionEntity, HttpStatus.OK);
+
+        } else {
+            PositionEntity positionEntity = new PositionEntity();
+            positionEntity.setProduct(positionDTO.getProduct());
+            positionEntity.setQuantity(positionDTO.getQuantity());
+            positionEntity.setPortfolio(portfolioEntity.get());
+            positionRepository.save(positionEntity);
+            return new ResponseEntity<>(positionEntity, HttpStatus.OK);
+        }
+
     }
 }

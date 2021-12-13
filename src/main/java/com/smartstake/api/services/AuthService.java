@@ -3,6 +3,8 @@ package com.smartstake.api.services;
 import com.smartstake.api.dto.ClientDTO;
 import com.smartstake.api.dto.LoginDTO;
 import com.smartstake.api.dto.RegisterDTO;
+import com.smartstake.api.dto.RegisterResponseDTO;
+import com.smartstake.api.model.entities.ClientEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,24 +23,30 @@ public class AuthService {
 
     private final String AUTH_ENDPOINT = "http://localhost:8080/stubs/auth";
 
-    public ResponseEntity<ClientDTO> login(LoginDTO loginDTO) {
-        if (loginDTO.getEmail() == null || loginDTO.getPassword() == null)
-            return new ResponseEntity<ClientDTO>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<RegisterResponseDTO> login(LoginDTO loginDTO) {
+        if (isNull(loginDTO.getUsername()) || isNull(loginDTO.getPassword())){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
-        return restTemplate.postForEntity(AUTH_ENDPOINT + "/login", loginDTO, ClientDTO.class);
+        return restTemplate.postForEntity(AUTH_ENDPOINT + "/login", loginDTO, RegisterResponseDTO.class);
     }
 
-    public ResponseEntity<ClientDTO> register(RegisterDTO registerRequest) {
+    public ResponseEntity<RegisterResponseDTO> register(RegisterDTO registerRequest) {
         if (isNull(registerRequest.getEmail()) ||
                 isNull(registerRequest.getFirstName()) ||
                 isNull(registerRequest.getLastName()) ||
                 isNull(registerRequest.getPassword()))
-            return new ResponseEntity<ClientDTO>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        ResponseEntity<ClientDTO> newClient = restTemplate.postForEntity(AUTH_ENDPOINT + "/register", registerRequest, ClientDTO.class);
+        ResponseEntity<RegisterResponseDTO> newClient = restTemplate.postForEntity(AUTH_ENDPOINT + "/register", registerRequest, RegisterResponseDTO.class);
 
-        if(newClient.getStatusCodeValue() == 200 || newClient.getStatusCodeValue() == 201)
-            clientService.saveClient(newClient.getBody());
+        if(newClient.getStatusCode().is2xxSuccessful()) {
+            RegisterResponseDTO client = newClient.getBody();
+            ClientDTO clientDTO = new ClientDTO();
+            clientDTO.setId(client.getUser().getId());
+            clientDTO.setEmail(client.getUser().getEmail());
+            clientService.saveClient(clientDTO);
+        }
 
         return newClient;
     }
