@@ -17,62 +17,89 @@ public class OrderService {
     @Autowired
     PortfolioRepository portfolioRepository;
 
-    private final int BUY_LIMIT = 10000;
-    private final int SELL_LIMIT = 5000;
-    private final double MAX_PRICE_SHIFT = 1.0;
-    private final double LAST_TRADED_PRICE = 1.30;
-
     private final String ORDER_ENDPOINT = "https://smartstakeorderservice.herokuapp.com";
 
     public ResponseEntity<String> createOrder(OrderDTO orderDTO) {
-        return restTemplate.postForEntity(ORDER_ENDPOINT + "/create", orderDTO, String.class);
+        OrderRequest orderRequest = OrderRequest.fromOrderDTO(orderDTO);
+        return restTemplate.postForEntity(ORDER_ENDPOINT + "/create", orderRequest, String.class);
     }
 
     public ResponseEntity<String> updateOrder(OrderDTO orderDTO) {
-        return restTemplate.postForEntity(ORDER_ENDPOINT + "/update", orderDTO, String.class);
+        OrderRequest orderRequest = OrderRequest.fromOrderDTO(orderDTO);
+        return restTemplate.postForEntity(ORDER_ENDPOINT + "/update", orderRequest, String.class);
     }
 
     public ResponseEntity<Boolean> deleteOrder(String id) {
-        return restTemplate.execute( ORDER_ENDPOINT + "/delete", HttpMethod.DELETE, null, restTemplate.responseEntityExtractor(Boolean.class));
+        return restTemplate.execute( ORDER_ENDPOINT + "/cancel", HttpMethod.DELETE, null, restTemplate.responseEntityExtractor(Boolean.class));
     }
 
-    public Boolean validateCreateOrder(OrderDTO orderDTO) {
-        boolean isValid = false;
-        // check that the bid price is within range
-        isValid = isWithin(orderDTO.getPrice(),
-                LAST_TRADED_PRICE + MAX_PRICE_SHIFT,
-                LAST_TRADED_PRICE - MAX_PRICE_SHIFT);
 
-        // validation for buy-side orders
-        if (orderDTO.getSide().equals(Side.BUY)) {
-            isValid = isWithin(orderDTO.getQuantity(), BUY_LIMIT, 1);
-            isValid = orderDTO.getPortfolio().getBalance() >= (orderDTO.getPrice() * orderDTO.getQuantity());
-        }
-        // validation for sell-side orders
-        else {
-            isValid = isWithin(orderDTO.getQuantity(), SELL_LIMIT, 1);
-            isValid = orderDTO
-                    .getPortfolio()
-                    .getPositions()
-                    .stream()
-                    .filter(positionDTO -> positionDTO.getProduct().equals(orderDTO.getProduct()))
-                    .toList()
-                    .get(0)
-                    .getQuantity() >= orderDTO.getQuantity();
-        }
-        return isValid;
+}
+
+class OrderRequest {
+    private String id;
+    private String product;
+    private int quantity;
+    private double price;
+    private Side side;
+    private Long portfolioId;
+
+    public static OrderRequest fromOrderDTO(OrderDTO orderDTO) {
+        OrderRequest orderRequest = new OrderRequest();
+        orderRequest.setId(orderRequest.getId());
+        orderRequest.setPortfolioId(orderDTO.getPortfolio().getId());
+        orderRequest.setPrice(orderDTO.getPrice());
+        orderRequest.setProduct(orderDTO.getProduct());
+        orderRequest.setQuantity(orderDTO.getQuantity());
+        orderRequest.setSide(orderDTO.getSide());
+        return orderRequest;
     }
 
-    public Boolean validateUpdateOrder(OrderDTO orderDTO) {
-        // implement update order logic
-        return true;
+    public String getId() {
+        return id;
     }
 
-    private boolean isWithin(double price, double upperBound, double lowerBound) {
-        return price <= upperBound && price >= lowerBound;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    private boolean isWithin(int price, int upperBound, int lowerBound) {
-        return price <= upperBound && price >= lowerBound;
+    public String getProduct() {
+        return product;
+    }
+
+    public void setProduct(String product) {
+        this.product = product;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public Side getSide() {
+        return side;
+    }
+
+    public void setSide(Side side) {
+        this.side = side;
+    }
+
+    public Long getPortfolioId() {
+        return portfolioId;
+    }
+
+    public void setPortfolioId(Long portfolioId) {
+        this.portfolioId = portfolioId;
     }
 }
