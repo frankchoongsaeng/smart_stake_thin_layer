@@ -27,6 +27,10 @@ public class PortfolioEntity {
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     private Set<PositionEntity> positions = new HashSet<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
+    private Set<OrderEntity> orders = new HashSet<>();
+
     public Long getId() {
         return id;
     }
@@ -74,6 +78,13 @@ public class PortfolioEntity {
         this.positions = positions;
     }
 
+    public Set<OrderEntity> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Set<OrderEntity> orders) {
+        this.orders = orders;
+    }
 
     public void deposit(double amount) {
         this.balance += amount;

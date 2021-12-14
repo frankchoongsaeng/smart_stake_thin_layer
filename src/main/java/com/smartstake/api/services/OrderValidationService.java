@@ -2,6 +2,9 @@ package com.smartstake.api.services;
 
 import com.smartstake.api.dto.OrderDTO;
 import com.smartstake.api.enums.Side;
+import com.smartstake.api.enums.Status;
+import com.smartstake.api.model.repositories.OrderRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,6 +14,9 @@ public class OrderValidationService {
     private final int SELL_LIMIT = 5000;
     private final double MAX_PRICE_SHIFT = 1.0;
     private final double LAST_TRADED_PRICE = 1.0;
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     public Boolean validateCreateOrder(OrderDTO orderDTO) {
         // check that the bid price is within range
@@ -40,6 +46,9 @@ public class OrderValidationService {
 
     public Boolean validateUpdateOrder(OrderDTO orderDTO) {
         // implement update order logic
+        if(!orderDTO.getStatus().equals(Status.PENDING)) return false;
+
+        //get the order from the db and run validation checks
         return true;
     }
 

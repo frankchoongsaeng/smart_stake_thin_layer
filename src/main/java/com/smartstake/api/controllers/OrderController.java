@@ -21,14 +21,14 @@ public class OrderController {
     @PostMapping("/create")
     public ResponseEntity<String> createOrder(@RequestBody OrderDTO orderDTO) {
         boolean isValid = orderValidationService.validateCreateOrder(orderDTO);
-        if(!isValid) return new ResponseEntity<>("Invalid request. Your order was not be created.", HttpStatus.BAD_REQUEST);
+        if(!isValid) return new ResponseEntity<>("Invalid create order request. Your order was not be created.", HttpStatus.BAD_REQUEST);
         return orderService.createOrder(orderDTO);
     }
 
     @PutMapping("/update")
     public ResponseEntity<String> updateOrder(@RequestBody OrderDTO orderDTO) {
         boolean isValid = orderValidationService.validateUpdateOrder(orderDTO);
-        if(!isValid) return new ResponseEntity<>("Invalid request. Your order could not be updated.", HttpStatus.BAD_REQUEST);
+        if(!isValid) return new ResponseEntity<>("Invalid update request. Your order could not be updated.", HttpStatus.BAD_REQUEST);
         return orderService.updateOrder(orderDTO);
     }
 
